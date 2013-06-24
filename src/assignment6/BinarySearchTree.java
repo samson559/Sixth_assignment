@@ -1,25 +1,27 @@
 package assignment6;
 
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.NoSuchElementException;
 
 
+
+
 /**
  * 
- * @author Dylan Noaker & Erich Newey
+ * @author Dylan Noaker
  * This is a binary search tree.
  *
  * @param <Type> whatever type you want to store
  */
 
-public class BinarySearchTree<Type extends Comparable<? super Type>> implements SortedSet<Type> 
-{
-	BinaryNode root;
-	
-	public BinarySearchTree() 
-	{
+public class BinarySearchTree<Type extends Comparable<? super Type>> implements SortedSet<Type> {
+	private BinaryNode root;
+	public BinarySearchTree() {
 		// TODO Auto-generated constructor stub
+		root = new BinaryNode(null,null,null);
 	}
 	 /**
 	   * Ensures that this set contains the specified item.
@@ -31,18 +33,15 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 	   * @throws NullPointerException
 	   *           if the item is null
 	   */
-	  public boolean add(Type item)
-	  {
-		  if (root == null)
-			  root = new BinaryNode(item);
+	/*
+	 * start at root
+	 * when we get to the correct branch, make an assignment
+	 * else, recursivley compare our way down the tree using this method.
+	 * 
+	 */
+	  public boolean add(Type item){
+		 return false;
 		  
-		  if (this.contains(item))
-			  return false;
-		  
-		  
-		  
-		  
-		  return false;
 	  }
 
 	  /**
@@ -56,9 +55,8 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 	   * @throws NullPointerException
 	   *           if any of the items is null
 	   */
-	  public boolean addAll(Collection<? extends Type> items)
-	  {
-		  return false;
+	  public boolean addAll(Collection<? extends Type> items){
+		return false;
 		  
 	  }
 
@@ -66,9 +64,8 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 	   * Removes all items from this set. The set will be empty after this method
 	   * call.
 	   */
-	  public void clear()
-	  {
-		  
+	  public void clear(){
+		 this.root =null;
 	  }
 
 	  /**
@@ -82,32 +79,33 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 	   * @throws NullPointerException
 	   *           if the item is null
 	   */
-	  public boolean contains(Type item) throws NullPointerException
-	  {
-		  if (item == null)
-			  throw new NullPointerException();
-		  
-		  BinaryNode temp = root;
-		  
-		  while (temp != null)
-		  {
-			  switch (temp.data.compareTo(item)) 
-			  {
-			  case -1:
-				  temp = temp.getRight();
-				  break;
-			  case 0:
-				  return true; //Contains the item
-			  case 1:
-				  temp = temp.getLeft();
-				  break;
-			  } 
-		  }
-		  
-		  //Will reach this point when temp is null.
-		  return false;
-		  
-	  }
+	    public boolean contains(Type item) throws NullPointerException
+	  	  {
+	  		  if (item == null)
+	  			  throw new NullPointerException();
+	  		  //starting at the root
+	  		  BinaryNode temp = root;
+	  		  //while we aren't at a leaf
+	  		  while (temp != null)
+	  		  {
+	  			  switch (temp.data.compareTo(item)) 
+	  			  {
+	  			  case -1:
+	  				  temp = temp.getRight();
+	  				  break;
+	  			  case 0:
+	  				  return true; //Contains the item
+	  			  case 1:
+	  				  temp = temp.getLeft();
+	 				  break;
+	 			  } 
+	 		  }
+			  
+			  //Will reach this point when temp is null.
+ 		  return false;
+	   		  
+	   	  }
+
 
 	  /**
 	   * Determines if for each item in the specified collection, there is an item
@@ -121,9 +119,12 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 	   *           if any of the items is null
 	   */
 
-	  public boolean containsAll(Collection<? extends Type> items) throws NullPointerException
-	  {		  
-		  return false;
+	  public boolean containsAll(Collection<? extends Type> items){
+		   
+		  for(Type item: items){
+			return(this.contains(item));
+		}
+		return false;
 		  
 	  }
 
@@ -133,17 +134,20 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 	   * @throws NoSuchElementException
 	   *           if the set is empty
 	   */
-	  public Type first() throws NoSuchElementException
-	  {
-		return null;
+	  public Type first() throws NoSuchElementException{
+		  if(root.data == null)
+			  throw new NoSuchElementException();
+		  if(root.left!=null)
+			  return root.getLeftmostNode().data;
+		  else
+			  return root.data;
 		  
 	  }
 
 	  /**
 	   * Returns true if this set contains no items.
 	   */
-	  public boolean isEmpty()
-	  {
+	  public boolean isEmpty(){
 		return false;
 		  
 	  }
@@ -154,8 +158,7 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 	   * @throws NoSuchElementException
 	   *           if the set is empty
 	   */
-	  public Type last() throws NoSuchElementException
-	  {
+	  public Type last() throws NoSuchElementException{
 		return null;
 		  
 	  }
@@ -170,8 +173,7 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 	   * @throws NullPointerException
 	   *           if the item is null
 	   */
-	  public boolean remove(Type item)
-	  {
+	  public boolean remove(Type item){
 		return false;
 		  
 	  }
@@ -189,8 +191,7 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 	   * @throws NullPointerException
 	   *           if any of the items is null
 	   */
-	  public boolean removeAll(Collection<? extends Type> items)
-	  {
+	  public boolean removeAll(Collection<? extends Type> items){
 		return false;
 		  
 	  }
@@ -198,8 +199,7 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 	  /**
 	   * Returns the number of items in this set.
 	   */
-	  public int size()
-	  {
+	  public int size(){
 		return 0;
 		  
 	  }
@@ -208,11 +208,44 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 	   * Returns an ArrayList containing all of the items in this set, in sorted
 	   * order.
 	   */
-	  public ArrayList<Type> toArrayList()
-	  {
+	  public ArrayList<Type> toArrayList(){
 		return null;
 		  
 	  }
+	  public void writeDot(String filename)
+		{
+			try {
+				PrintWriter output = new PrintWriter(new FileWriter(filename));
+				output.println("graph g {");
+				if(root != null)
+					output.println(root.hashCode() + "[label=\"" + root + "\"]");
+				writeDotRecursive(root, output);
+				output.println("}");
+				output.close();
+			}
+			catch(Exception e){e.printStackTrace();}
+		}
+
+		// Recursively traverse the tree, outputting each node to the .dot file
+		private void writeDotRecursive(BinaryNode n, PrintWriter output) throws Exception
+		{
+			if(n == null)
+				return;
+			if(n.left != null)
+			{
+				output.println(n.left.hashCode() + "[label=\"" + n.left + "\"]");
+				output.println(n.hashCode() + " -- " + n.left.hashCode());
+			}
+			if(n.right != null)
+			{
+				output.println(n.right.hashCode() + "[label=\"" + n.right + "\"]");
+				output.println(n.hashCode() + " -- " + n.right.hashCode());
+			}
+
+			writeDotRecursive(n.left, output);
+			writeDotRecursive(n.right, output);
+		}
+
 		private class BinaryNode 
 		{
 			// Since the outer BST class declares <Type>, we can use it here without redeclaring it for BinaryNode
