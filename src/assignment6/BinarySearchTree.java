@@ -19,9 +19,10 @@ import java.util.NoSuchElementException;
 
 public class BinarySearchTree<Type extends Comparable<? super Type>> implements SortedSet<Type> {
 	private BinaryNode root;
+	private int size =0;
 	public BinarySearchTree() {
 		// TODO Auto-generated constructor stub
-		root = new BinaryNode(null,null,null);
+
 	}
 	 /**
 	   * Ensures that this set contains the specified item.
@@ -121,7 +122,7 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 
 	  public boolean containsAll(Collection<? extends Type> items){
 		   
-		  for(Type item: items){
+		for(Type item: items){
 			return(this.contains(item));
 		}
 		return false;
@@ -141,13 +142,14 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 			  return root.getLeftmostNode().data;
 		  else
 			  return root.data;
-		  
 	  }
 
 	  /**
 	   * Returns true if this set contains no items.
 	   */
 	  public boolean isEmpty(){
+		if(root==null)
+			return true;
 		return false;
 		  
 	  }
@@ -200,18 +202,38 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 	   * Returns the number of items in this set.
 	   */
 	  public int size(){
-		return 0;
-		  
+		  return size;
 	  }
 
 	  /**
 	   * Returns an ArrayList containing all of the items in this set, in sorted
 	   * order.
+	   * Driver Method.
+	   * @return sorted ArrayList of this collection's elements
 	   */
-	  public ArrayList<Type> toArrayList(){
-		return null;
-		  
+	  public ArrayList<Type> toArrayList()
+	  {
+		  ArrayList<Type> list = new ArrayList<Type>();
+		  BinaryNode node = root;
+		  toArrayList(node, list);
+		  return list;
 	  }
+	  
+	  /**Recursive helper method for toArrayList
+	   * @param BinaryNode
+	   * @param ArrayList
+	   */
+	  @SuppressWarnings("unchecked")
+	public void toArrayList(BinaryNode node, ArrayList list)
+	  {
+		  if (node == null)
+			  return;
+		  
+		  toArrayList(node.getLeft(), list);
+		  list.add(node.data);
+		  toArrayList(node.getRight(), list);
+	  }
+	  
 	  public void writeDot(String filename)
 		{
 			try {
