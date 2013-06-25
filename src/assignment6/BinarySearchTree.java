@@ -17,12 +17,14 @@ import java.util.NoSuchElementException;
  * @param <Type> whatever type you want to store
  */
 
-public class BinarySearchTree<Type extends Comparable<? super Type>> implements SortedSet<Type> {
+public class BinarySearchTree<Type extends Comparable<? super Type>> implements SortedSet<Type> 
+{
 	private BinaryNode root;
-	private int size =0;
-	public BinarySearchTree() {
-		// TODO Auto-generated constructor stub
-
+	private int size;
+	
+	public BinarySearchTree() 
+	{
+		size = 0;
 	}
 	 /**
 	   * Ensures that this set contains the specified item.
@@ -40,9 +42,42 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 	 * else, recursivley compare our way down the tree using this method.
 	 * 
 	 */
-	  public boolean add(Type item){
-		 return false;
-		  
+	  public boolean add(Type item)
+	  {
+		  if (this.contains(item))
+			  return false;
+
+		  BinaryNode temp = root;
+
+		  while (temp != null)
+		  {
+			  if (temp.data.compareTo(item) > 0)
+			  {
+				  if (temp.getLeft() == null)
+				  {
+					  temp.setLeft(new BinaryNode(item));
+					  size++;
+					  return true;
+				  }
+				  else
+					  temp = temp.getLeft();
+			  }
+			  else if (temp.data.compareTo(item) < 0)
+			  {
+				  if (temp.getRight() == null)
+				  {
+					  temp.setRight(new BinaryNode(item));
+					  size++;
+					  return true;
+				  }
+				  else
+					  temp = temp.getRight();
+			  }
+			  else
+				  return false;
+		  }
+
+		  return false;
 	  }
 
 	  /**
@@ -56,17 +91,22 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 	   * @throws NullPointerException
 	   *           if any of the items is null
 	   */
-	  public boolean addAll(Collection<? extends Type> items){
-		return false;
+	  public boolean addAll(Collection<? extends Type> items)
+	  {
+		  boolean flag = false;
+		  for (Type i : items)
+			  flag = this.add(i);
 		  
+		  return flag;
 	  }
 
 	  /**
 	   * Removes all items from this set. The set will be empty after this method
 	   * call.
 	   */
-	  public void clear(){
-		 this.root =null;
+	  public void clear()
+	  {
+		 this.root = null;
 	  }
 
 	  /**
@@ -120,14 +160,19 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 	   *           if any of the items is null
 	   */
 
-	  public boolean containsAll(Collection<? extends Type> items){
-		   
-		for(Type item: items){
-			return(this.contains(item));
-		}
-		return false;
-		  
-	  }
+	    public boolean containsAll(Collection<? extends Type> items) throws NullPointerException
+	    {	    	
+	    	for(Type item : items)
+	    	{
+	    		if (item == null)
+	    			throw new NullPointerException();
+	    		
+	    		if (!this.contains(item))
+	    			return false;
+	    	}
+	    	return true;
+
+	    }
 
 	  /**
 	   * Returns the first (i.e., smallest) item in this set.
@@ -135,9 +180,11 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 	   * @throws NoSuchElementException
 	   *           if the set is empty
 	   */
-	  public Type first() throws NoSuchElementException{
+	  public Type first() throws NoSuchElementException
+	  {
 		  if(root.data == null)
 			  throw new NoSuchElementException();
+		  
 		  if(root.left!=null)
 			  return root.getLeftmostNode().data;
 		  else
