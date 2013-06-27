@@ -18,6 +18,7 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 {
 	private BinaryNode root;
 	private int size;
+	private boolean bigFlag;
 
 	public BinarySearchTree() 
 	{
@@ -43,46 +44,57 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 		if (this.contains(item))
 			return false;
 
-		BinaryNode temp = root;
-
-		//Temp should never be null, if this works right.
-		while (temp != null)
+		if(size==0)
 		{
-			//Left hand side
-			if (temp.getData().compareTo(item) > 0)
-			{
-				if (temp.getLeft() == null)
-				{
-					//Add item
-					temp.setLeft(new BinaryNode(item));
-					size++;
-					return true;
-				}
-				else //Keep searching
-					temp = temp.getLeft();
-			}
-
-			//Right hand side
-			else if (temp.getData().compareTo(item) < 0)
-			{
-				if (temp.getRight() == null)
-				{
-					//Add item
-					temp.setRight(new BinaryNode(item));
-					size++;
-					return true;
-				}
-				else //Keep searching
-					temp = temp.getRight();
-			}
-
-			//Should never reach this
-			else
-				return false;
+			root = new BinaryNode(item);
+			writeDot("treePic.dot");
+			size++;
+			return true;
 		}
+		else{
+			BinaryNode temp = root;
 
-		//Should never reach this either.
-		return false;
+			//Temp should never be null, if this works right.
+			while (temp != null)
+			{
+				//Left hand side
+				if (temp.getData().compareTo(item) > 0)
+				{
+					if (temp.getLeft() == null)
+					{
+						//Add item
+						temp.setLeft(new BinaryNode(item));
+						writeDot("treePic.dot");
+						size++;
+						return true;
+					}
+					else //Keep searching
+						temp = temp.getLeft();
+				}
+
+				//Right hand side
+				else if (temp.getData().compareTo(item) < 0)
+				{
+					if (temp.getRight() == null)
+					{
+						//Add item
+						temp.setRight(new BinaryNode(item));
+						writeDot("treePic.dot");
+						size++;
+						return true;
+					}
+					else //Keep searching
+						temp = temp.getRight();
+				}
+
+				//Should never reach this
+				else
+					return false;
+			}
+
+			//Should never reach this either.
+			return false;
+		}
 	}
 
 	/**
@@ -94,9 +106,9 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 	 *         if any item in the input collection was actually inserted);
 	 *         otherwise, returns false
 	 * @throws NullPointerException
-	 *           if any of the items is null
+	 *           if any of the items are null
 	 */
-	public boolean addAll(Collection<? extends Type> items)
+	public boolean addAll(Collection<? extends Type> items) throws NullPointerException
 	{
 		boolean flag = false;
 		for (Type i : items)
@@ -112,6 +124,8 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 	public void clear()
 	{
 		this.root = null;
+		size = 0;
+		writeDot("treePic.dot");
 	}
 
 	/**
@@ -170,8 +184,8 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 	{	    	
 		for(Type item : items)
 		{
-			if (item == null)
-				throw new NullPointerException();
+			//			if (item == null)
+			//				throw new NullPointerException();
 
 			if (!this.contains(item))
 				return false;
@@ -219,7 +233,7 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 		if(root == null)
 			throw new NoSuchElementException();
 
-		if(root.getLeft()!=null)
+		if(root.getRight()!=null)
 			return root.getRightmostNode().getData();
 		else
 			return root.getData(); 
@@ -239,13 +253,14 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 	{
 		if (item == null)
 			throw new NullPointerException();
-
+		//extra search
 		if (!this.contains(item))
 			return false;
 		else
 		{
 			//starting at the root
 			BinaryNode temp = root;
+			//deprecated use of parent node
 			BinaryNode parent;
 			int typeOfCase = 0; // 1 = leaf node, 2 = node with 1 child, 3 = node with 2 children
 			boolean movement = false; //false = last move was left; true = last move was right
@@ -255,8 +270,13 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 			if (compare == 0) //If the remove item is the root 
 			{
 				//If the root has no children, set it to null.
-				if (temp.getLeft() == null && temp.getRight() == null)
+				if (temp.getLeft() == null && temp.getRight() == null){
 					this.root = null;
+					writeDot("treePic.dot");
+					size--;
+					return true;
+				}
+
 				//Otherwise, set the root to its successor.
 				else
 					typeOfCase = 3;
@@ -291,20 +311,36 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 
 			//if the node to be removed has no children
 			case 1: 
-				if (movement)
+				if (movement){
 					parent.setRight(null);
-				else
+					writeDot("treePic.dot");
+					size--;
+					return true;
+				}
+				else{
 					parent.setLeft(null);
-				break;
+					writeDot("treePic.dot");
+					size--;
+					return true;
+				}
 
 				//if the node to be removed has one child
 			case 2: 
 				if (movement)
 				{
-					if (temp.getLeft() != null)
+					if (temp.getLeft() != null){
 						parent.setRight(temp.getLeft());
-					else
+						writeDot("treePic.dot");
+						size--;
+						return true;
+					}
+					else{
 						parent.setRight(temp.getRight());
+						writeDot("treePic.dot");
+						size--;
+						return true;
+					}
+
 				}  
 				else
 				{
@@ -320,7 +356,7 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 				Type i = temp.getSuccessor().getData(); //find the successor: O(log N)
 				this.remove(i); //remove the successor
 				temp.setData(i); //set the data of the removal node to the data of the successor, effectively removing the desired node.
-				break;
+				return true;
 
 				//Should not hit this case.
 			default:
@@ -332,8 +368,59 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 		//Should never hit this.
 		return false;
 	}
+	/**
+	 * Ensures that this set does not contain the specified item.
+	 * 
+	 * @param item
+	 *          - the item whose absence is ensured in this set
+	 * @return true if this set changed as a result of this method call (that is,
+	 *         if the input item was actually removed){ otherwise, returns false
+	 * @throws NullPointerException
+	 *           if the item is null
+	 */
+	public boolean doyleRemove(Type item) throws NullPointerException, NoSuchElementException{
+		bigFlag=false;
+		BinaryNode in = root;
+		recursiveRemove(in,item);
 
+		return bigFlag;
 
+	}
+	private BinaryNode recursiveRemove(BinaryNode curr, Type item){
+		//base case
+		if (curr == null)
+			return curr;//or maybe throw nse
+		//look for "it"
+		if (item.compareTo(curr.getData())<0)
+			curr.left = recursiveRemove(curr.left,item);
+		else if (item.compareTo(curr.getData())>0)
+			curr.right = recursiveRemove(curr.right,item);
+		//by now we've found it! base cases
+		//two children
+		else if(curr.left!=null&&curr.right!=null){
+			BinaryNode temp = curr.getSuccessor();
+			curr.data = temp.data;
+			if (temp.getLeft()!=null){
+				temp = temp.getLeft();
+			}
+			else{
+				temp = temp.right;
+			}
+			writeDot("treePic.dot");
+			size--;
+			bigFlag = true;
+		}
+		//maybe one child
+		else{
+			curr = (curr.left!=null)? curr.left:curr.right;
+			writeDot("treePic.dot");
+			size--;
+			bigFlag=true;
+		}
+		//return the appropriate node for the recursive calls
+		return curr;
+
+	}
 	/**
 	 * Ensures that this set does not contain any of the items in the specified
 	 * collection.
@@ -351,14 +438,10 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 		boolean flag = false;
 		for (Type t : items)
 		{
-			if (t == null)
-				throw new NullPointerException();
-
-			if (this.contains(t))
-			{
-				this.remove(t);
-				flag = true;
-			}
+			if(!flag)
+				flag =this.doyleRemove(t);
+			else
+				doyleRemove(t);
 		}
 
 		return flag;
@@ -394,7 +477,7 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 	{
 		if (node == null)
 			return;
-
+		//in order DFT
 		toArrayList(node.getLeft(), list);
 		list.add(node.data);
 		toArrayList(node.getRight(), list);
@@ -438,8 +521,9 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 		writeDotRecursive(n.right, output);
 	}
 
-	
-	
+
+
+
 	private class BinaryNode 
 	{
 		// Since the outer BST class declares <Type>, we can use it here without redeclaring it for BinaryNode
@@ -546,6 +630,11 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 
 			return numChildren;
 		}
+		@Override
+		public String toString(){
+			return data.toString();
+		}
+
 
 		/**
 		 * @return The leftmost node in the binary tree rooted at this node.
