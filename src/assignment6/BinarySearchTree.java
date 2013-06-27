@@ -47,7 +47,7 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 		if(size==0)
 		{
 			root = new BinaryNode(item);
-			//writeDot("treePic.dot");
+			writeDot("treePic.dot");
 			size++;
 			return true;
 		}
@@ -64,7 +64,7 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 					{
 						//Add item
 						temp.setLeft(new BinaryNode(item));
-						//writeDot("treePic.dot");
+						writeDot("treePic.dot");
 						size++;
 						return true;
 					}
@@ -79,7 +79,7 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 					{
 						//Add item
 						temp.setRight(new BinaryNode(item));
-						//writeDot("treePic.dot");
+						writeDot("treePic.dot");
 						size++;
 						return true;
 					}
