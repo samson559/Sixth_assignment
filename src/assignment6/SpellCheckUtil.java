@@ -56,7 +56,7 @@ public class SpellCheckUtil
    */
   public void addToDictionary(String word) 
   {
-    //TODO
+    dictionary.add(word);
   }
 
   /**
@@ -67,7 +67,7 @@ public class SpellCheckUtil
    */
   public void removeFromDictionary(String word) 
   {
-	//TODO
+	dictionary.remove(word);
   }
 
   /**
@@ -80,10 +80,13 @@ public class SpellCheckUtil
   public List<String> spellCheck(File documentFile) 
   {
 	List<String> wordsToCheck = readFromFile(documentFile);
+	
+	List<String> mispelledWords = new ArrayList<String>();
+	for (String word : wordsToCheck)
+		if (!dictionary.contains(word))
+			mispelledWords.add(word);
 
-	//TODO -- do not return null
-
-    return null;
+    return mispelledWords;
   }
 
   /**
@@ -94,7 +97,7 @@ public class SpellCheckUtil
    */
   private void buildDictionary(List<String> words) 
   {
-	//TODO
+	  dictionary.addAll(words);
   }
 
   /**

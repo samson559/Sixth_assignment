@@ -20,16 +20,33 @@ public class SpellChecker
 		String option = "";
 		
 		//TODO: Check parameter size according to the handout
+		if (args.length < 2 || args.length > 3)
+		{
+			System.out.println("Invalid parameter size!");
+			return;
+		}
 		
-		//TODO: Instantiate the dictionary File object using args[0]		
+		//TODO: Instantiate the dictionary File object using args[0]	
+		dictionary = new File(args[0]);
 		
 		//TODO: Check to see if this dictionary file is a normal file
 		//Use the File class isFile() method
+		if (!dictionary.isFile())
+		{
+			System.out.println("Invalid dictionary file!");
+			return;
+		}
 		
-		//TODO: Instantiate the document File object using args[1]		
+		//TODO: Instantiate the document File object using args[1]
+		document = new File(args[1]);
 		
 		//TODO: Check to see if this document file is a normal file
 		//Use the File class isFile() method		
+		if (!document.isFile())
+		{
+			System.out.println("Invalid document file!");
+			return;
+		}
 		
 		// If a third parameter was passed for the options, check its validity 
 		if (args.length == 3) 
@@ -62,15 +79,21 @@ public class SpellChecker
 			if(option.equals("-p"))
 			{
 				//TODO: Print every misspelled word on a new line
+				for (String word : misspelledWords)
+					System.out.println(word);
+				
 			}
 			else if(option.equals("-f"))				
 				try
 				{
 					FileWriter writer = new FileWriter("misspelled.txt");
 					
-					//TODO: Put every misspelled word on a new line in the misspelled.txt file 
+					//TODO: Put every misspelled word on a new line in the misspelled.txt file
+					for (String word : misspelledWords)
+						writer.write(word);
 					
 					//TODO: Make sure to close the "writer" file you just populated.
+					writer.close();
 					
 					System.out.println("Please see misspelled.txt for a list of the words.");	
 				} 
