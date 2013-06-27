@@ -47,7 +47,7 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 		if(size==0)
 		{
 			root = new BinaryNode(item);
-			writeDot("treePic.dot");
+			//writeDot("treePic.dot");
 			size++;
 			return true;
 		}
@@ -64,7 +64,7 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 					{
 						//Add item
 						temp.setLeft(new BinaryNode(item));
-						writeDot("treePic.dot");
+						//writeDot("treePic.dot");
 						size++;
 						return true;
 					}
@@ -79,7 +79,7 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 					{
 						//Add item
 						temp.setRight(new BinaryNode(item));
-						writeDot("treePic.dot");
+						//writeDot("treePic.dot");
 						size++;
 						return true;
 					}
@@ -150,17 +150,14 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 		//Loop stops after it hits a leaf node.
 		while (temp != null)
 		{
-			switch (temp.getData().compareTo(item)) 
-			{
-			case -1:
+			int result = temp.getData().compareTo(item);
+			
+			if (result < 0)
 				temp = temp.getRight();
-				break;
-			case 0:
+			else if (result == 0)
 				return true; //Contains the item
-			case 1:
-				temp = temp.getLeft();
-				break;
-			} 
+			else if (result > 0)
+				temp = temp.getLeft(); 
 		}
 
 		//Will reach this point when temp is null.
