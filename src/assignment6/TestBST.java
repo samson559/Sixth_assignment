@@ -56,9 +56,9 @@ public class TestBST extends TestCase {
 	 * corner case: out of order add to the right
 	 */
 	public void testAdd6(){
+		assertTrue(ourtree.add(6));
 		assertTrue(ourtree.add(3));
-		assertTrue(ourtree.add(5));
-		assertTrue(ourtree.add(4));
+		assertTrue(ourtree.add(8));
 		ArrayList<Integer> temp = ourtree.toArrayList();
 		ArrayList<Integer> result = new ArrayList<Integer>();
 		//I trust java enough to call this the truth
@@ -72,7 +72,8 @@ public class TestBST extends TestCase {
 	 * test addall
 	 * empty case: add to a new tree
 	 */
-	public void testaddAll(){
+	public void testaddAll()
+	{
 		ArrayList<Integer> temp = new ArrayList<Integer>();
 		for(int i = 1; i<=5; i++)
 			temp.add(i);
