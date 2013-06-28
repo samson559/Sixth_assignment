@@ -47,7 +47,7 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 		if(size==0)
 		{
 			root = new BinaryNode(item);
-			writeDot("treePic.dot");
+			//writeDot("treePic.dot");
 			size++;
 			return true;
 		}
@@ -64,7 +64,7 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 					{
 						//Add item
 						temp.setLeft(new BinaryNode(item));
-						writeDot("treePic.dot");
+						//writeDot("treePic.dot");
 						size++;
 						return true;
 					}
@@ -79,7 +79,7 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 					{
 						//Add item
 						temp.setRight(new BinaryNode(item));
-						writeDot("treePic.dot");
+						//writeDot("treePic.dot");
 						size++;
 						return true;
 					}
@@ -125,7 +125,7 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 	{
 		this.root = null;
 		size = 0;
-		writeDot("treePic.dot");
+		//writeDot("treePic.dot");
 	}
 
 	/**
@@ -236,6 +236,136 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 			return root.getData(); 
 	}
 
+//	/**
+//	 * Ensures that this set does not contain the specified item.
+//	 * 
+//	 * @param item
+//	 *          - the item whose absence is ensured in this set
+//	 * @return true if this set changed as a result of this method call (that is,
+//	 *         if the input item was actually removed){ otherwise, returns false
+//	 * @throws NullPointerException
+//	 *           if the item is null
+//	 */
+//	public boolean remove(Type item) throws NullPointerException
+//	{
+//		if (item == null)
+//			throw new NullPointerException();
+//		//extra search
+//		if (!this.contains(item))
+//			return false;
+//		else
+//		{
+//			//starting at the root
+//			BinaryNode temp = root;
+//			//deprecated use of parent node
+//			BinaryNode parent;
+//			int typeOfCase = 0; // 1 = leaf node, 2 = node with 1 child, 3 = node with 2 children
+//			boolean movement = false; //false = last move was left; true = last move was right
+//
+//			int compare = temp.getData().compareTo(item);
+//
+//			if (compare == 0) //If the remove item is the root 
+//			{
+//				//If the root has no children, set it to null.
+//				if (temp.getLeft() == null && temp.getRight() == null){
+//					this.root = null;
+//					//writeDot("treePic.dot");
+//					size--;
+//					return true;
+//				}
+//
+//				//Otherwise, set the root to its successor.
+//				else
+//					typeOfCase = 3;
+//			}
+//
+//
+//			parent = temp;
+//			//Typical cases
+//			while (typeOfCase == 0)
+//			{
+//
+//				if (compare < 0)
+//				{
+//					parent = temp;
+//					temp = temp.getRight();
+//					movement = true;
+//				}
+//				else if (compare > 0)
+//				{
+//					parent = temp;
+//					temp = temp.getLeft();
+//					movement = false;
+//				}
+//				else //temp = the item
+//					typeOfCase = temp.numChildren() + 1;
+//
+//				compare = temp.getData().compareTo(item);
+//			}  
+//
+//			switch (typeOfCase) 
+//			{
+//
+//			//if the node to be removed has no children
+//			case 1: 
+//				if (movement){
+//					parent.setRight(null);
+//					//writeDot("treePic.dot");
+//					size--;
+//					return true;
+//				}
+//				else{
+//					parent.setLeft(null);
+//					//writeDot("treePic.dot");
+//					size--;
+//					return true;
+//				}
+//
+//				//if the node to be removed has one child
+//			case 2: 
+//				if (movement)
+//				{
+//					if (temp.getLeft() != null){
+//						parent.setRight(temp.getLeft());
+//						//writeDot("treePic.dot");
+//						size--;
+//						return true;
+//					}
+//					else{
+//						parent.setRight(temp.getRight());
+//						//writeDot("treePic.dot");
+//						size--;
+//						return true;
+//					}
+//
+//				}  
+//				else
+//				{
+//					if (temp.getRight() != null)
+//						parent.setLeft(temp.getRight());
+//					else
+//						parent.setLeft(temp.getLeft());
+//				}
+//				break;
+//
+//				//if the node to be removed has two children
+//			case 3: 
+//				Type i = temp.getSuccessor().getData(); //find the successor: O(log N)
+//				this.remove(i); //remove the successor
+//				temp.setData(i); //set the data of the removal node to the data of the successor, effectively removing the desired node.
+//				return true;
+//
+//				//Should not hit this case.
+//			default:
+//				return false;
+//			}
+//			size--;
+//
+//		}
+//		//Should never hit this.
+//		return false;
+//	}
+	
 	/**
 	 * Ensures that this set does not contain the specified item.
 	 * 
@@ -246,136 +376,7 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 	 * @throws NullPointerException
 	 *           if the item is null
 	 */
-	public boolean remove(Type item) throws NullPointerException
-	{
-		if (item == null)
-			throw new NullPointerException();
-		//extra search
-		if (!this.contains(item))
-			return false;
-		else
-		{
-			//starting at the root
-			BinaryNode temp = root;
-			//deprecated use of parent node
-			BinaryNode parent;
-			int typeOfCase = 0; // 1 = leaf node, 2 = node with 1 child, 3 = node with 2 children
-			boolean movement = false; //false = last move was left; true = last move was right
-
-			int compare = temp.getData().compareTo(item);
-
-			if (compare == 0) //If the remove item is the root 
-			{
-				//If the root has no children, set it to null.
-				if (temp.getLeft() == null && temp.getRight() == null){
-					this.root = null;
-					writeDot("treePic.dot");
-					size--;
-					return true;
-				}
-
-				//Otherwise, set the root to its successor.
-				else
-					typeOfCase = 3;
-			}
-
-
-			parent = temp;
-			//Typical cases
-			while (typeOfCase == 0)
-			{
-
-				if (compare < 0)
-				{
-					parent = temp;
-					temp = temp.getRight();
-					movement = true;
-				}
-				else if (compare > 0)
-				{
-					parent = temp;
-					temp = temp.getLeft();
-					movement = false;
-				}
-				else //temp = the item
-					typeOfCase = temp.numChildren() + 1;
-
-				compare = temp.getData().compareTo(item);
-			}  
-
-			switch (typeOfCase) 
-			{
-
-			//if the node to be removed has no children
-			case 1: 
-				if (movement){
-					parent.setRight(null);
-					writeDot("treePic.dot");
-					size--;
-					return true;
-				}
-				else{
-					parent.setLeft(null);
-					writeDot("treePic.dot");
-					size--;
-					return true;
-				}
-
-				//if the node to be removed has one child
-			case 2: 
-				if (movement)
-				{
-					if (temp.getLeft() != null){
-						parent.setRight(temp.getLeft());
-						writeDot("treePic.dot");
-						size--;
-						return true;
-					}
-					else{
-						parent.setRight(temp.getRight());
-						writeDot("treePic.dot");
-						size--;
-						return true;
-					}
-
-				}  
-				else
-				{
-					if (temp.getRight() != null)
-						parent.setLeft(temp.getRight());
-					else
-						parent.setLeft(temp.getLeft());
-				}
-				break;
-
-				//if the node to be removed has two children
-			case 3: 
-				Type i = temp.getSuccessor().getData(); //find the successor: O(log N)
-				this.remove(i); //remove the successor
-				temp.setData(i); //set the data of the removal node to the data of the successor, effectively removing the desired node.
-				return true;
-
-				//Should not hit this case.
-			default:
-				return false;
-			}
-			size--;
-
-		}
-		//Should never hit this.
-		return false;
-	}
-	/**
-	 * Ensures that this set does not contain the specified item.
-	 * 
-	 * @param item
-	 *          - the item whose absence is ensured in this set
-	 * @return true if this set changed as a result of this method call (that is,
-	 *         if the input item was actually removed){ otherwise, returns false
-	 * @throws NullPointerException
-	 *           if the item is null
-	 */
-	public boolean doyleRemove(Type item) throws NullPointerException, NoSuchElementException{
+	public boolean remove(Type item) throws NullPointerException, NoSuchElementException{
 		bigFlag=false;
 		BinaryNode in = root;
 		recursiveRemove(in,item);
@@ -383,16 +384,25 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 		return bigFlag;
 
 	}
+	
+	/**Helper method for remove.
+	 * 
+	 * @param curr
+	 * @param item
+	 * @return
+	 */
 	private BinaryNode recursiveRemove(BinaryNode curr, Type item){
 		//base case
 		if (curr == null)
 			return curr;//or maybe throw nse
+		
 		//look for "it"
 		if (item.compareTo(curr.getData())<0)
 			curr.left = recursiveRemove(curr.left,item);
 		else if (item.compareTo(curr.getData())>0)
 			curr.right = recursiveRemove(curr.right,item);
 		//by now we've found it! base cases
+		
 		//two children
 		else if(curr.left!=null&&curr.right!=null){
 			BinaryNode temp = curr.getSuccessor();
@@ -403,14 +413,14 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 			else{
 				temp = temp.right;
 			}
-			writeDot("treePic.dot");
+			//writeDot("treePic.dot");
 			size--;
 			bigFlag = true;
 		}
 		//maybe one child
 		else{
 			curr = (curr.left!=null)? curr.left:curr.right;
-			writeDot("treePic.dot");
+			//writeDot("treePic.dot");
 			size--;
 			bigFlag=true;
 		}
@@ -436,9 +446,9 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 		for (Type t : items)
 		{
 			if(!flag)
-				flag =this.doyleRemove(t);
+				flag =this.remove(t);
 			else
-				doyleRemove(t);
+				remove(t);
 		}
 
 		return flag;

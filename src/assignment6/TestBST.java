@@ -374,7 +374,7 @@ public class TestBST extends TestCase {
 	public void testRemove(){
 		for(int i = 1; i<=5; i++)
 			ourtree.add(i);
-		assertTrue(ourtree.doyleRemove(5));
+		assertTrue(ourtree.remove(5));
 		assertFalse(ourtree.contains(5));
 		assertEquals(4,ourtree.size());
 		
@@ -386,7 +386,7 @@ public class TestBST extends TestCase {
 	public void testRemove2(){
 		for(int i = 5; i>=1; i--)
 			ourtree.add(i);
-		assertTrue(ourtree.doyleRemove(1));
+		assertTrue(ourtree.remove(1));
 		assertFalse(ourtree.contains(1));
 		assertEquals(4,ourtree.size());
 		
@@ -401,7 +401,7 @@ public class TestBST extends TestCase {
 			ourtree.add(i);
 			result.add(i);
 		}
-		assertTrue(ourtree.doyleRemove(2));
+		assertTrue(ourtree.remove(2));
 		assertFalse(ourtree.contains(2));
 		assertEquals(4,ourtree.size());
 		
@@ -416,7 +416,7 @@ public class TestBST extends TestCase {
 			ourtree.add(i);
 			result.add(i);
 		}
-		assertTrue(ourtree.doyleRemove(1));
+		assertTrue(ourtree.remove(1));
 		assertFalse(ourtree.contains(1));
 		assertEquals(5,ourtree.size());
 		
@@ -439,7 +439,7 @@ public class TestBST extends TestCase {
 		ourtree.add(1);
 		ourtree.add(6);
 		
-		assertTrue(ourtree.doyleRemove(3));
+		assertTrue(ourtree.remove(3));
 		assertFalse(ourtree.contains(3));
 		assertEquals(5,ourtree.size());
 
@@ -461,7 +461,7 @@ public class TestBST extends TestCase {
 		ourtree.add(2);
 		ourtree.add(1);
 		ourtree.add(6);
-		assertTrue(ourtree.doyleRemove(4));
+		assertTrue(ourtree.remove(4));
 		assertFalse(ourtree.contains(4));
 		assertEquals(5,ourtree.size());
 
