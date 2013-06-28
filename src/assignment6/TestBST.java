@@ -5,6 +5,12 @@ import java.util.NoSuchElementException;
 
 import junit.framework.TestCase;
 
+/**Class for exhaustive testing of the BinarySearchTree class.
+ * Tests all corner cases.
+ * 
+ * @author Dylan Noaker
+ *
+ */
 public class TestBST extends TestCase {
 	private BinarySearchTree<Integer> ourtree;
 

@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.TreeSet;
 
+/**Class for timing the efficiency of the BinarySearchTree class.
+ * 
+ * @author Erich Newey & Dylan Noaker
+ *
+ */
 public class TimeBST {
 	/*1=best
 	 * 2=avg
@@ -17,18 +22,10 @@ public class TimeBST {
 	private static final int end = 10001;
 	private static final int increment = 100;
 	private final static int timesToLoop = 500;
-	
-	private final static int expSize = 100;
 
 	private static Random rand;
 	private static long t1,tmid,tfinal,tfull,tempty;
 	private static double tactual1,tactual2;
-
-
-	public TimeBST() {
-
-
-	}
 
 	/**
 	 * @param args
@@ -36,15 +33,15 @@ public class TimeBST {
 	public static void main(String[] args) 
 	{
 		rand = new Random();
-		tree1 = generateCase(25);
 		
 		t1 = System.nanoTime();
-		while(System.nanoTime() - t1<1000000000){ } //warmup
+		while(System.nanoTime() - t1<1000000000){ } //Thread stabilizer
 		
 		timeFoo();
 	}
 	
-	/**Main timing experiment method. Contains several experiments. Things are commented in/out as needed for each experiment.
+	/**Main timing experiment method. 
+	 * Tests the contains method exclusively. Code is commented in/out as needed for each experiment.
 	 * 
 	 */
 	public static void timeFoo()

@@ -10,6 +10,7 @@ import java.util.NoSuchElementException;
  * 
  * @author Dylan Noaker & Erich Newey
  * This is a binary search tree.
+ * The writeDot methods have all been commented out in order to test timing and efficiency.
  *
  * @param <Type> whatever type you want to store
  */
@@ -150,8 +151,8 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 		//Loop stops after it hits a leaf node.
 		while (temp != null)
 		{
+			//Moves through BST by comparing each item in the BST to the argument
 			int result = temp.getData().compareTo(item);
-			
 			if (result < 0)
 				temp = temp.getRight();
 			else if (result == 0)
@@ -180,13 +181,8 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 	public boolean containsAll(Collection<? extends Type> items) throws NullPointerException
 	{	    	
 		for(Type item : items)
-		{
-			//			if (item == null)
-			//				throw new NullPointerException();
-
-			if (!this.contains(item))
+			if (!this.contains(item)) //contains method will throw NullPointerException if item is null
 				return false;
-		}
 		return true;
 
 	}
@@ -236,6 +232,11 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 			return root.getData(); 
 	}
 
+	
+	
+	
+	//---------------BEGIN UNUSED CODE--------------- kept, just in case.
+	
 //	/**
 //	 * Ensures that this set does not contain the specified item.
 //	 * 
@@ -365,6 +366,9 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 //		//Should never hit this.
 //		return false;
 //	}
+//------------------------END OF UNUSED CODE-----------------------------
+	
+	
 	
 	/**
 	 * Ensures that this set does not contain the specified item.
@@ -573,6 +577,7 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 		 * @param _data
 		 *          - the node data to be set.
 		 */
+		@SuppressWarnings("unused")
 		public void setData(Type _data) 
 		{
 			data = _data;
@@ -626,6 +631,7 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 		 * 
 		 * @return The number of children of this node
 		 */
+		@SuppressWarnings("unused")
 		public int numChildren()
 		{
 			int numChildren = 0;
