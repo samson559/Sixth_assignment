@@ -7,6 +7,7 @@ public class TimeBST {
 	/*1=best
 	 * 2=avg
 	 * 3=worst
+	 * 4=balanced
 	 */
 	private static int typeOfTest = 4;
 	private static BinarySearchTree<Integer> tree1 = new BinarySearchTree<Integer>();
@@ -90,10 +91,10 @@ public class TimeBST {
 	private static void balancedCaseGenerator (BinarySearchTree<Integer> bst, int size)
 	{
 		ArrayList<Integer> list = new ArrayList<Integer>();
-		for (int i=0; i<size; i++)
+		for (int i=1; i<=size; i++)
 			list.add(i);
 		
-		balancedCaseGenerator(size, 0, bst, list);
+		balancedCaseGenerator(size-1, 0, bst, list);
 	}
 	
 	private static void balancedCaseGenerator (int high, int low, BinarySearchTree<Integer> bst, ArrayList<Integer> list)
